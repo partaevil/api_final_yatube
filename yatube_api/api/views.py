@@ -9,7 +9,6 @@ from .serializers import (
 from posts.models import Post, Comment, Group, Follow
 from django.contrib.auth import get_user_model
 from rest_framework.pagination import PageNumberPagination
-from rest_framework import mixins
 from rest_framework.views import APIView
 from rest_framework import status, permissions
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -42,7 +41,9 @@ class PostListCreateView(generics.ListCreateAPIView):
         try:
             group = Group.objects.get(pk=group_id) if group_id else None
         except Group.DoesNotExist:
-            raise serializer.ValidationError({"group": "Group does not exist."})
+            raise serializer.ValidationError(
+                {"group": "Group does not exist."}
+            )
         serializer.save(author=self.request.user, group=group)
 
 
@@ -171,13 +172,17 @@ class FollowView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        if Follow.objects.filter(user=request.user, following=following_user).exists():
+        if Follow.objects.filter(
+                user=request.user, following=following_user).exists():
             return Response(
                 {"detail": "You are already following this user."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        follow = Follow.objects.create(user=request.user, following=following_user)
+        follow = Follow.objects.create(
+            user=request.user, 
+            following=following_user
+        )
 
         response_data = FollowSerializer(follow).data
         return Response(response_data, status=status.HTTP_201_CREATED)

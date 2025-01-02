@@ -14,8 +14,14 @@ urlpatterns = [
         TemplateView.as_view(template_name='redoc.html'),
         name='redoc'
     ),
-    path('api/v1/jwt/create/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/v1/jwt/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/v1/jwt/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('api/v1/jwt/create/',
+         TokenObtainPairView.as_view(),
+         name='token_obtain_pair'),
+    path('api/v1/jwt/refresh/',
+         TokenRefreshView.as_view(),
+         name='token_refresh'),
+    path('api/v1/jwt/verify/',
+         TokenVerifyView.as_view(),
+         name='token_verify'),
     path('api/v1/', include('api.urls')),
 ]
