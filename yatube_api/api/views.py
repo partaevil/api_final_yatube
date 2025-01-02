@@ -138,7 +138,7 @@ class FollowView(APIView):
 
     def get(self, request):
         """
-        Возвращает список подписок текущего пользователя. 
+        Возвращает список подписок текущего пользователя.
         Возможен поиск по параметру 'search'.
         """
         queryset = Follow.objects.filter(user=request.user)
@@ -161,7 +161,7 @@ class FollowView(APIView):
         except User.DoesNotExist:
             return Response(
                 {
-                    "detail": f"User with username '{following_username}' does not exist."
+                    "detail": f"User '{following_username}' does not exist."
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
@@ -180,7 +180,7 @@ class FollowView(APIView):
             )
 
         follow = Follow.objects.create(
-            user=request.user, 
+            user=request.user,
             following=following_user
         )
 
